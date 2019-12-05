@@ -14,6 +14,7 @@ export default function ViewStudent(props) {
     const resultReducer = useSelector((state) => state.resultReducer);
     const { results } = resultReducer;
 
+    let id = navigation.getParam('name', null)
     let name = navigation.getParam('name', null)
     let age = navigation.getParam('age', null)
     let gender = navigation.getParam('gender', null)
@@ -46,6 +47,7 @@ export default function ViewStudent(props) {
                     <Title style={{textDecorationLine: 'underline'}}>{item.subject}</Title>
                     <View style={{justifyContent: 'center'}}>
                         <Paragraph style={{fontSize: 20}}>{item.mark}</Paragraph>
+                        <Paragraph style={{fontSize: 20}}>{item.id}</Paragraph>
                     </View>
                 </Card.Content>
             </Card>
@@ -101,7 +103,7 @@ export default function ViewStudent(props) {
                 <TouchableHighlight
                     style={styles.floatingButton}
                     underlayColor='#228B22'
-                    onPress={() => navigation.navigate('NewResult', {title: "New Result"})}
+                    onPress={() => navigation.navigate('NewResult', {id: id})}
                 >
                     <Text style={{fontSize: 25, color: 'white'}}>+</Text>
                 </TouchableHighlight>
@@ -134,7 +136,7 @@ export default function ViewStudent(props) {
                 <TouchableHighlight
                     style={styles.floatingButton}
                     underlayColor='#228B22'
-                    onPress={() => navigation.navigate('NewResult', {title: "New Result"})}
+                    onPress={() => navigation.navigate('NewResult', {id: id})}
                 >
                     <Text style={{fontSize: 25, color: 'white'}}>+</Text>
                 </TouchableHighlight>

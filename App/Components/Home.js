@@ -35,6 +35,7 @@ export default function Home(props) {
         return (
             <TouchableOpacity
                 onPress={() => navigation.navigate('ViewStudent', {
+                    id: item.id,
                     name: item.name,
                     age: item.age,
                     gender: item.gender,

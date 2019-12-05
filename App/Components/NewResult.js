@@ -10,18 +10,11 @@ export default function NewResult(props) {
     const {navigation} = props;
 
     let result = navigation.getParam('result', null);
+    let id = navigation.getParam('id', null);
 
     const [isSaving, setIsSaving] = useState(false)
     const [subject, setSubject] = useState(result ? result.subject : "")
     const [mark, setMark] = useState(result ? result.mark : "")
-
-    const theme = {
-        ...DefaultTheme,
-        colors: {
-          ...DefaultTheme.colors,
-          primary: '#228B22',
-        },
-      };
 
     const onSave = () => {
         let edit = result !== null;
@@ -32,7 +25,7 @@ export default function NewResult(props) {
             result_['subject'] = subject;
             result_['mark'] = mark;
         } else {
-            let id = new Date().getTime();
+            // let id = new Date().getTime();
             result_ = {
                 "id": id,
                 "subject": subject,
@@ -73,6 +66,14 @@ export default function NewResult(props) {
         })
     }
 
+    const theme = {
+        ...DefaultTheme,
+        colors: {
+            ...DefaultTheme.colors,
+            primary: '#228B22',
+        },
+    };
+
     return (
         <KeyboardAvoidingView keyboardVerticalOffset={Header.HEIGHT} style={styles.flex} behavior="padding">
             <SafeAreaView style={styles.flex}>
@@ -102,7 +103,6 @@ export default function NewResult(props) {
                     <View style={{flex: 1, alignItems: "flex-end"}}>
                         <TouchableHighlight
                             style={[styles.button]}
-                            disabled={false}
                             onPress={onSave}
                             underlayColor="rgba(0, 0, 0, 0)"
                         >
