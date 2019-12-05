@@ -4,7 +4,7 @@ import {useDispatch} from 'react-redux';
 import {Header} from 'react-navigation-stack';
 import { addStudent, updateStudent } from '../Redux/Actions/types';
 
-export default function NewQuote(props) {
+export default function NewStudent(props) {
     const dispatch = useDispatch();
     const {navigation} = props;
 
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         justifyContent: "center",
         alignItems: 'center',
-        backgroundColor: "#6B9EFA"
+        backgroundColor: "#20B2AA"
     },
 
     buttonText: {

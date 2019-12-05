@@ -30,10 +30,19 @@ export default function Home(props) {
             setIsFetching(false);
         })
     }
-    
+
     const renderItem = ({item, index}) => {
         return (
-            <ListItem item={item} index={index} onDelete={onDelete} onEdit={onEdit} />
+            <TouchableOpacity
+                onPress={() => navigation.navigate('ViewStudent', {
+                    name: item.name,
+                    age: item.age,
+                    gender: item.gender,
+                    grade: item.grade
+                })}
+            >
+                <ListItem item={item} index={index} navigation={navigation} onDelete={onDelete} onEdit={onEdit} />
+            </TouchableOpacity>
         )
     }
 
@@ -76,13 +85,12 @@ export default function Home(props) {
                     data={students}
                     renderItem={renderItem}
                     keyExtractor={(item, index) => `students_${index}`}
-                    
                 />
 
                 <TouchableHighlight
                     style={styles.floatingButton}
-                    underlayColor='#FF7043'
-                    onPress={() => navigation.navigate('NewStudent', {title: "Edit Student"})}
+                    underlayColor='#228B22'
+                    onPress={() => navigation.navigate('NewStudent', {title: "New Student"})}
                 >
                     <Text style={{fontSize: 25, color: 'white'}}>+</Text>
                 </TouchableHighlight>
@@ -106,8 +114,8 @@ const styles = StyleSheet.create({
     },
 
     floatingButton:{
-        backgroundColor: '#6B9EFA',
-        borderColor: '#6B9EFA',
+        backgroundColor: '#228B22',
+        borderColor: '#228B22',
         height: 55,
         width: 55,
         borderRadius: 55 / 2,

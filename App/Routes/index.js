@@ -3,19 +3,26 @@ import { createStackNavigator } from 'react-navigation-stack';
 import LoadingScreen from '../Components/LoadingScreen';
 import HomeScreen from '../Components/Home';
 import NewStudentScreen from '../Components/NewStudent';
+import NewResultScreen from '../Components/NewResult';
 import ViewStudentScreen from '../Components/ViewStudent';
 
 const AppStack = createStackNavigator({
     Home: {
         screen: HomeScreen,
         navigationOptions: ({ navigation }) => ({
-            title: `Home`
+            title: `StudentTracker`
         })
     },
     NewStudent: {
         screen: NewStudentScreen,
         navigationOptions: ({ navigation }) => ({
-            title: `Create or Edit Student`
+            title: `Create Student`
+        })
+    },
+    NewResult: {
+        screen: NewResultScreen,
+        navigationOptions: ({ navigation }) => ({
+            title: `Add Student Results`
         })
     },
     ViewStudent: {

@@ -5,7 +5,7 @@ import Swipeable from 'react-native-gesture-handler/Swipeable';
 
 let colors = ['#228B22', '#20B2AA'];
 
-export default function ListItem ({ item, props, index, onDelete, onEdit }){
+export default function ListItem ({item, index, navigation, onDelete, onEdit}){
     const inputEl = useRef(null);
 
     const RightActions = ({ progress, dragX, onPress, item}) => {
@@ -56,20 +56,16 @@ export default function ListItem ({ item, props, index, onDelete, onEdit }){
                 <RightActions progress={progress} dragX={dragX} item={item} />
             )}
         >
-            <TouchableOpacity
-                onPress={() => {props.navigation.navigate('ViewStudent')}}
-            >
-                <View style={styles.row}>
-                    <View style={[styles.container, {backgroundColor: random()}]}>
-                        <Text style={styles.quote}>
-                            {item.name}
-                        </Text>
-                        <Text style={styles.author}>
-                            Grade {item.grade}
-                        </Text>
-                    </View>
+            <View style={styles.row}>
+                <View style={[styles.container, {backgroundColor: random()}]}>
+                    <Text style={styles.quote}>
+                        {item.name} ->
+                    </Text>
+                    <Text style={styles.author}>
+                        Grade {item.grade}
+                    </Text>
                 </View>
-            </TouchableOpacity>
+            </View>
         </Swipeable>
     )
 }
