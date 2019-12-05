@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { KeyboardAvoidingView, SafeAreaView, StyleSheet, Text, TouchableHighlight, View, AsyncStorage } from 'react-native';
-import { Card, Button } from 'react-native-elements';
 import { DefaultTheme, TextInput } from 'react-native-paper';
 import {useDispatch} from 'react-redux';
 import {Header} from 'react-navigation-stack';
@@ -10,6 +9,12 @@ export default function NewResult(props) {
     const dispatch = useDispatch();
     const {navigation} = props;
 
+    let result = navigation.getParam('result', null);
+
+    const [isSaving, setIsSaving] = useState(false)
+    const [subject, setSubject] = useState(result ? result.subject : "")
+    const [mark, setMark] = useState(result ? result.mark : "")
+
     const theme = {
         ...DefaultTheme,
         colors: {
@@ -18,18 +23,12 @@ export default function NewResult(props) {
         },
       };
 
-    let result = navigation.getParam('result', null);
-
-    const [isSaving, setIsSaving] = useState(false)
-    const [subject, setSubject] = useState(result ? result.subject : "")
-    const [mark, setMark] = useState(result ? result.mark : 0)
-
     const onSave = () => {
         let edit = result !== null;
         let result_ = {};
 
         if (edit) {
-            result_ = student;
+            result_ = result;
             result_['subject'] = subject;
             result_['mark'] = mark;
         } else {
@@ -63,9 +62,9 @@ export default function NewResult(props) {
 
                 AsyncStorage.setItem('results', JSON.stringify(results), () => {
                     if (!edit) {
-                        dispatch(addStudent(result_));
+                        dispatch(addResult(result_));
                     } else {
-                        dispatch(updateStudent(result_));
+                        dispatch(updateResult(result_));
                     }
 
                     navigation.goBack()

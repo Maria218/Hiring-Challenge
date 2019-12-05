@@ -3,8 +3,8 @@ import { studentReducer } from "./students";
 import { resultReducer } from "./results";
 
 const rootReducer = combineReducers({
-    studentReducer,
-    resultReducer
+    resultReducer,
+    studentReducer
 })
 
 export default rootReducer;

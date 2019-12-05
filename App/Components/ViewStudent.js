@@ -1,38 +1,146 @@
-import React, {useRef} from 'react';
-import { View, Text, StyleSheet, Animated, TouchableOpacity, TouchableHighlight, SafeAreaView } from 'react-native';
-import { Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, TouchableHighlight, SafeAreaView, AsyncStorage, FlatList } from 'react-native';
+import { Card, Title, Paragraph, ActivityIndicator } from 'react-native-paper';
+import { getResults, deleteResult } from '../Redux/Actions/types';
+import { useDispatch, useSelector } from 'react-redux';
 
-export default function ViewStudent (props){
+export default function ViewStudent(props) {
+    const dispatch = useDispatch();
     const {navigation} = props;
+
+    const [isFetching, setIsFetching] = useState(false);
+
+    // Access Redux Store State
+    const resultReducer = useSelector((state) => state.resultReducer);
+    const { results } = resultReducer;
+
     let name = navigation.getParam('name', null)
     let age = navigation.getParam('age', null)
     let gender = navigation.getParam('gender', null)
     let grade = navigation.getParam('grade', null)
 
-    return (
-        <SafeAreaView style={styles.container}>
+    useEffect(() => getData(), [])
+
+    const getData = () => {
+        setIsFetching(true);
+
+        AsyncStorage.getItem('results', (err, results) => {
+            if (err) {
+                alert(err.message)
+            }
+            else if (results !== null) {
+                dispatch(getResults(JSON.parse(results)))
+            }
+            else if (results === null) {
+                alert("THIS STUDENT HAS NO RESULTS TO SHOW YET")
+            }
+
+            setIsFetching(false)
+        })
+    }
+
+    const renderItem = ({item, index}) => {
+        return (
             <Card>
                 <Card.Content>
-                    <Title style={{textDecorationLine: 'underline'}}>{name}</Title>
-                    <View style={styles.cardStyle}>
-                        <Paragraph style={{fontSize: 20}}><Text style={{fontWeight: 'bold'}}>Grade:</Text> {grade}</Paragraph>
-                        <Paragraph style={{fontSize: 20}}><Text style={{fontWeight: 'bold'}}>Age:</Text>  {age}</Paragraph>
-                    </View>
-                    <View style={styles.cardStyle}>
-                        <Paragraph style={{fontSize: 20}}><Text style={{fontWeight: 'bold'}}>Gender:</Text>  {gender}</Paragraph>
+                    <Title style={{textDecorationLine: 'underline'}}>{item.subject}</Title>
+                    <View style={{justifyContent: 'center'}}>
+                        <Paragraph style={{fontSize: 20}}>{item.mark}</Paragraph>
                     </View>
                 </Card.Content>
             </Card>
+        )
+    }
 
-            <TouchableHighlight
-                style={styles.floatingButton}
-                underlayColor='#228B22'
-                onPress={() => navigation.navigate('NewResult', {title: "New Result"})}
-            >
-                <Text style={{fontSize: 25, color: 'white'}}>+</Text>
-            </TouchableHighlight>
-        </SafeAreaView>
-    )
+    const onEdit = (item) => {
+        navigation.navigate('NewResult', {result: item})
+    }
+
+    const onDelete = (id) => {
+        AsyncStorage.getItem('results', (err, results) => {
+            if (err) {
+                alert(err.message)
+            }
+            else if (results !== null) {
+                results = JSON.parse(results)
+
+                // Find index of result passed
+                const index = results.findIndex((obj) => obj.id === id)
+
+                // Remove Result
+                if (index !== -1) {
+                    results.splice(index, 1)
+                }
+
+                // Update local storage
+                AsyncStorage.setItem('results', JSON.stringify(results), () => dispatch(deleteResult(id)));
+            }
+        })
+    }
+
+    if (isFetching) {
+        return (
+            <SafeAreaView style={styles.container}>
+                <Card>
+                    <Card.Content>
+                        <Title style={{textDecorationLine: 'underline'}}>{name}</Title>
+                        <View style={styles.cardStyle}>
+                            <Paragraph style={{fontSize: 20}}><Text style={{fontWeight: 'bold'}}>Grade:</Text> {grade}</Paragraph>
+                            <Paragraph style={{fontSize: 20}}><Text style={{fontWeight: 'bold'}}>Age:</Text>  {age}</Paragraph>
+                        </View>
+                        <View style={styles.cardStyle}>
+                            <Paragraph style={{fontSize: 20}}><Text style={{fontWeight: 'bold'}}>Gender:</Text>  {gender}</Paragraph>
+                        </View>
+                    </Card.Content>
+                </Card>
+
+                <View style={styles.activityIndicatorContainer}>
+                    <ActivityIndicator animating={true} />
+                </View>
+    
+                <TouchableHighlight
+                    style={styles.floatingButton}
+                    underlayColor='#228B22'
+                    onPress={() => navigation.navigate('NewResult', {title: "New Result"})}
+                >
+                    <Text style={{fontSize: 25, color: 'white'}}>+</Text>
+                </TouchableHighlight>
+            </SafeAreaView>
+        )
+    } else {
+        return (
+            <SafeAreaView style={styles.container}>
+                <Card>
+                    <Card.Content>
+                        <Title style={{textDecorationLine: 'underline'}}>{name}</Title>
+                        <View style={styles.cardStyle}>
+                            <Paragraph style={{fontSize: 20}}><Text style={{fontWeight: 'bold'}}>Grade:</Text> {grade}</Paragraph>
+                            <Paragraph style={{fontSize: 20}}><Text style={{fontWeight: 'bold'}}>Age:</Text>  {age}</Paragraph>
+                        </View>
+                        <View style={styles.cardStyle}>
+                            <Paragraph style={{fontSize: 20}}><Text style={{fontWeight: 'bold'}}>Gender:</Text>  {gender}</Paragraph>
+                        </View>
+                    </Card.Content>
+                </Card>
+
+                <View>
+                    <FlatList
+                        data={results}
+                        renderItem={renderItem}
+                        keyExtractor={(item, index) => `results_${index}`}
+                    />
+                </View>
+    
+                <TouchableHighlight
+                    style={styles.floatingButton}
+                    underlayColor='#228B22'
+                    onPress={() => navigation.navigate('NewResult', {title: "New Result"})}
+                >
+                    <Text style={{fontSize: 25, color: 'white'}}>+</Text>
+                </TouchableHighlight>
+            </SafeAreaView>
+        )
+    }
 }
 
 const styles = StyleSheet.create({

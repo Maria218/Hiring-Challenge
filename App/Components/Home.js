@@ -58,10 +58,10 @@ export default function Home(props) {
             else if (students !== null) {
                 students = JSON.parse(students);
 
-                // Find index of quote passed
+                // Find index of student passed
                 const index = students.findIndex((obj) => obj.id === id)
 
-                // Remove Quote
+                // Remove Student
                 if (index !== -1) {
                     students.splice(index, 1)
                 }
