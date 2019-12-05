@@ -1,12 +1,15 @@
 import React, {useRef} from 'react';
 import { View, Text, StyleSheet, Animated } from 'react-native';
 
-export default function ViewStudent ({item}){
+export default function ViewStudent (props){
+    const {navigation} = props;
 
     return (
         <View>
             <View>
-                <Text>Hello</Text>
+                <Text>
+                    Name:
+                </Text>
             </View>
         </View>
     )

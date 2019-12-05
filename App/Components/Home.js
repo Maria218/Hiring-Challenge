@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FlatList, StyleSheet, SafeAreaView, View, Text, ActivityIndicator, TouchableHighlight, AsyncStorage} from 'react-native';
+import { FlatList, StyleSheet, SafeAreaView, View, Text, ActivityIndicator, TouchableOpacity, TouchableHighlight, AsyncStorage} from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { getStudents, deleteStudent } from '../Redux/Actions/types';
 import ListItem from './ListItem';
@@ -30,10 +30,10 @@ export default function Home(props) {
             setIsFetching(false);
         })
     }
-
+    
     const renderItem = ({item, index}) => {
         return (
-            <ListItem item={item} index={index} navigation={navigation} onDelete={onDelete} onEdit={onEdit} />
+            <ListItem item={item} index={index} onDelete={onDelete} onEdit={onEdit} />
         )
     }
 
@@ -76,12 +76,13 @@ export default function Home(props) {
                     data={students}
                     renderItem={renderItem}
                     keyExtractor={(item, index) => `students_${index}`}
+                    
                 />
 
                 <TouchableHighlight
                     style={styles.floatingButton}
                     underlayColor='#FF7043'
-                    onPress={() => navigation.navigate('NewStudent', {title: "New Student"})}
+                    onPress={() => navigation.navigate('NewStudent', {title: "Edit Student"})}
                 >
                     <Text style={{fontSize: 25, color: 'white'}}>+</Text>
                 </TouchableHighlight>

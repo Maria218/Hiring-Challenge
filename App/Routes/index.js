@@ -15,7 +15,7 @@ const AppStack = createStackNavigator({
     NewStudent: {
         screen: NewStudentScreen,
         navigationOptions: ({ navigation }) => ({
-            title: `Add A Student`
+            title: `Create or Edit Student`
         })
     },
     ViewStudent: {
