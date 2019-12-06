@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, TouchableHighlight, SafeAreaView, AsyncStorage,
 import { Card, Title, Paragraph, ActivityIndicator, Button, DefaultTheme } from 'react-native-paper';
 import { getResults, deleteResult, deleteStudent } from '../Redux/Actions/types';
 import { useDispatch, useSelector } from 'react-redux';
-import SideSwipe from 'react-native-sideswipe';
 
 export default function ViewStudent(props) {
     const dispatch = useDispatch();

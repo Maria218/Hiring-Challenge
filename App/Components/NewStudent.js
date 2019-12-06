@@ -64,6 +64,7 @@ export default function NewStudent(props) {
                         dispatch(addStudent(student_));
                     } else {
                         dispatch(updateStudent(student_));
+                        navigation.navigate('Home')
                     }
 
                     navigation.goBack()
@@ -100,6 +101,7 @@ export default function NewStudent(props) {
                         theme={theme}
                         style={[styles.text]}
                         value={age}
+                        keyboardType="number-pad"
                     />
                     <TextInput
                         onChangeText={(text) => setGrade(text)}
@@ -108,6 +110,7 @@ export default function NewStudent(props) {
                         theme={theme}
                         style={[styles.text]}
                         value={grade}
+                        keyboardType="number-pad"
                     />
                     <TextInput
                         onChangeText={(text) => setGender(text)}
