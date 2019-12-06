@@ -51,26 +51,28 @@ export default function ViewStudent(props) {
     }
 
     const renderItem = ({item, index}) => {
-        return (
-            <Card>
-                <Card.Content>
-                    <Title style={{textDecorationLine: 'underline'}}><Text style={{fontWeight: 'bold'}}>Subject: </Text>{item.subject}</Title>
-                    <View style={{justifyContent: 'center'}}>
-                        <Paragraph style={{fontSize: 20}}><Text style={{fontWeight: 'bold', justifyContent:'center'}}>Result: </Text>{item.mark}</Paragraph>
-                        <Paragraph style={{fontSize: 20}}>{item.id}</Paragraph>
-                        <Paragraph style={{fontSize: 20}}>{item.student}</Paragraph>
-                    </View>
-                </Card.Content>
-                <Card.Actions>
-                    <Button onPress={() => {
-                        onEditResult(item)
-                    }}>Edit Result</Button>
-                    <Button onPress={() => {
-                        onDeleteResult(item.id)
-                    }}>Delete Result</Button>
-                </Card.Actions>
-            </Card>
-        )
+        if (item.student === studentId) {
+            return (
+                <Card>
+                    <Card.Content>
+                        <Title style={{textDecorationLine: 'underline'}}><Text style={{fontWeight: 'bold'}}>Subject: </Text>{item.subject}</Title>
+                        <View style={{justifyContent: 'center'}}>
+                            <Paragraph style={{fontSize: 20}}><Text style={{fontWeight: 'bold', justifyContent:'center'}}>Result: </Text>{item.mark}</Paragraph>
+                            <Paragraph style={{fontSize: 20}}>{item.id}</Paragraph>
+                            <Paragraph style={{fontSize: 20}}>{item.student}</Paragraph>
+                        </View>
+                    </Card.Content>
+                    <Card.Actions>
+                        <Button onPress={() => {
+                            onEditResult(item)
+                        }}>Edit Result</Button>
+                        <Button onPress={() => {
+                            onDeleteResult(item.id)
+                        }}>Delete Result</Button>
+                    </Card.Actions>
+                </Card>
+            )
+        }
     }
 
     const onEditStudent = (item) => {
