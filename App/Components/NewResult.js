@@ -81,8 +81,7 @@ export default function NewResult(props) {
                     <TextInput
                         onChangeText={(text) => setSubject(text)}
                         label="Enter A Subject"
-                        underlineColor="#228B22"
-                        selectionColor="#228B22"
+                        underlineColor="black"
                         theme={theme}
                         style={[styles.text]}
                         value={subject}
@@ -90,8 +89,7 @@ export default function NewResult(props) {
                     <TextInput
                         onChangeText={(text) => setMark(text)}
                         label="Enter Result"
-                        underlineColor="#228B22"
-                        selectionColor="#228B22"
+                        underlineColor="black"
                         theme={theme}
                         style={[styles.text]}
                         value={mark}

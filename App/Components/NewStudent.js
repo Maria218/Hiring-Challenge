@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { KeyboardAvoidingView, SafeAreaView, StyleSheet, Text, TextInput, TouchableHighlight, View, AsyncStorage } from 'react-native';
+import { KeyboardAvoidingView, SafeAreaView, StyleSheet, Text, TouchableHighlight, View, AsyncStorage } from 'react-native';
 import {useDispatch} from 'react-redux';
 import {Header} from 'react-navigation-stack';
 import { addStudent, updateStudent } from '../Redux/Actions/types';
+import { DefaultTheme, TextInput } from 'react-native-paper';
 
 export default function NewStudent(props) {
     const dispatch = useDispatch();
@@ -70,36 +71,52 @@ export default function NewStudent(props) {
         })
     }
 
+    const theme = {
+        ...DefaultTheme,
+        colors: {
+            ...DefaultTheme.colors,
+            primary: '#228B22',
+        },
+    };
+
     let disabled = (name.length > 0 && grade.length > 0 && gender.length > 0 && age.length > 0) ? false : true;
     return (
         <KeyboardAvoidingView keyboardVerticalOffset={Header.HEIGHT} style={styles.flex} behavior="padding">
             <SafeAreaView style={styles.flex}>
-                <View>
+                {/* <View> */}
                     <TextInput
                         onChangeText={(text) => setName(text)}
-                        placeholder={"Student Name"}
+                        label="Student Name"
+                        underlineColor="black"
+                        theme={theme}
                         style={[styles.text]}
                         value={name}
                     />
                     <TextInput
                         onChangeText={(text) => setAge(text)}
-                        placeholder={"Enter Age"}
+                        label="Enter Age"
+                        underlineColor="black"
+                        theme={theme}
                         style={[styles.text]}
                         value={age}
                     />
                     <TextInput
                         onChangeText={(text) => setGrade(text)}
-                        placeholder={"Student Grade"}
+                        label="Student Grade"
+                        underlineColor="black"
+                        theme={theme}
                         style={[styles.text]}
                         value={grade}
                     />
                     <TextInput
                         onChangeText={(text) => setGender(text)}
-                        placeholder={"Student Gender"}
+                        label="Student Gender"
+                        underlineColor="black"
+                        theme={theme}
                         style={[styles.text]}
                         value={gender}
                     />
-                </View>
+                {/* </View> */}
 
                 <View style={styles.buttonContainer}>
                     <View style={{flex: 1, alignItems: "flex-end"}}>
@@ -153,6 +170,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
     },
     text: {
+        backgroundColor: '#fff',
         fontSize: 30,
         lineHeight: 13,
         fontFamily: 'Helvetica Neue',
