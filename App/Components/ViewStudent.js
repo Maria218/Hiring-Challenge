@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { View, Text, StyleSheet, TouchableHighlight, SafeAreaView, AsyncStorage, FlatList } from 'react-native';
+import { View, Text, StyleSheet, TouchableHighlight, SafeAreaView, AsyncStorage, FlatList, Dimensions } from 'react-native';
 import { Card, Title, Paragraph, ActivityIndicator, Button, DefaultTheme } from 'react-native-paper';
 import { getResults, deleteResult, deleteStudent } from '../Redux/Actions/types';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,11 +15,19 @@ export default function ViewStudent(props) {
     const resultReducer = useSelector((state) => state.resultReducer);
     const { results } = resultReducer;
 
-    let studentId = navigation.getParam('name', null)
+    let studentId = navigation.getParam('id', null)
     let name = navigation.getParam('name', null)
     let age = navigation.getParam('age', null)
     let gender = navigation.getParam('gender', null)
     let grade = navigation.getParam('grade', null)
+
+    const studentObject = [{
+        id: studentId,
+        name: name,
+        grade: grade,
+        gender: gender,
+        age: age
+    }]
 
     useEffect(() => getData(), [])
 
@@ -72,8 +80,8 @@ export default function ViewStudent(props) {
         }
     }
 
-    const onEditStudent = (item) => {
-        navigation.navigate('NewStudent', {student: item})
+    const onEditStudent = (studentObject) => {
+        navigation.navigate('NewStudent', {student: studentObject[0]})
     }
 
     const onDeleteStudent = (id) => {
@@ -91,6 +99,8 @@ export default function ViewStudent(props) {
                 if (index !== -1) {
                     students.splice(index, 1)
                 }
+
+                navigation.navigate('Home')
 
                 // Update local storage
                 AsyncStorage.setItem('students', JSON.stringify(students), () => dispatch(deleteStudent(id)));
@@ -124,14 +134,6 @@ export default function ViewStudent(props) {
         })
     }
 
-    const theme = {
-        ...DefaultTheme,
-        colors: {
-            ...DefaultTheme.colors,
-            primary: '#000',
-        },
-    };
-
     if (isFetching) {
         return (
             <SafeAreaView style={styles.container}>
@@ -148,7 +150,7 @@ export default function ViewStudent(props) {
                     </Card.Content>
                     <Card.Actions style={{justifyContent: 'space-between'}}>
                         <Button onPress={() => {
-                            onEditStudent(studentId)
+                            onEditStudent(studentObject)
                         }}>Edit Student</Button>
                         <Button onPress={() => {
                             onDeleteStudent(studentId)
@@ -185,13 +187,14 @@ export default function ViewStudent(props) {
                     </Card.Content>
                     <Card.Actions style={{justifyContent: 'space-between'}}>
                         <Button onPress={() => {
-                            onEditStudent(studentId)
+                            onEditStudent(studentObject)
                         }}>Edit Student</Button>
                         <Button onPress={() => {
                             onDeleteStudent(studentId)
                         }}>Delete Student</Button>
                     </Card.Actions>
                 </Card>
+
                 <FlatList
                     data={results}
                     renderItem={renderItem}

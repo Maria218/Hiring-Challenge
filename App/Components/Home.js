@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FlatList, StyleSheet, SafeAreaView, View, Text, ActivityIndicator, TouchableOpacity, TouchableHighlight, AsyncStorage} from 'react-native';
+import { FlatList, StyleSheet, SafeAreaView, View, Text, ActivityIndicator, TouchableOpacity, Dimensions, TouchableHighlight, AsyncStorage} from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { getStudents, deleteStudent } from '../Redux/Actions/types';
 import ListItem from './ListItem';
@@ -49,6 +49,7 @@ export default function Home(props) {
 
     const onEdit = (item) => {
         navigation.navigate('NewStudent', {student: item, title: 'Edit Student'})
+        alert(JSON.stringify(item))
     }
 
     const onDelete = (id) => {

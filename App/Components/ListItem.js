@@ -51,22 +51,22 @@ export default function ListItem ({item, index, navigation, onDelete, onEdit}){
     }
 
     return (
-        <Swipeable ref={inputEl}
-            renderRightActions={(progress, dragX) => (
-                <RightActions progress={progress} dragX={dragX} item={item} />
-            )}
-        >
+        // <Swipeable ref={inputEl}
+        //     renderRightActions={(progress, dragX) => (
+        //         <RightActions progress={progress} dragX={dragX} item={item} />
+        //     )}
+        // >
             <View style={styles.row}>
                 <View style={[styles.container, {backgroundColor: random()}]}>
                     <Text style={styles.quote}>
-                        {item.name} ->
+                        {item.name}
                     </Text>
                     <Text style={styles.author}>
                         Grade {item.grade}
                     </Text>
                 </View>
             </View>
-        </Swipeable>
+        // </Swipeable>
     )
 }
 

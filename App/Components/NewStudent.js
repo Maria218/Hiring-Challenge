@@ -56,6 +56,7 @@ export default function NewStudent(props) {
                     if (index !== -1) {
                         students[index] = student_;
                     }
+                    // navigation.goBack()
                 }
 
                 AsyncStorage.setItem('students', JSON.stringify(students), () => {
@@ -122,11 +123,10 @@ export default function NewStudent(props) {
                     <View style={{flex: 1, alignItems: "flex-end"}}>
                         <TouchableHighlight
                             style={[styles.button]}
-                            disabled={false}
                             onPress={onSave}
                             underlayColor="rgba(0, 0, 0, 0)"
                         >
-                            <Text style={[styles.buttonText, {color:"#FFF"}]}>
+                            <Text style={[styles.buttonText, {color: "#FFF"}]}>
                                 Save
                             </Text>
                         </TouchableHighlight>
