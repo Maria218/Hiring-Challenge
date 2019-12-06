@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { View, Text, StyleSheet, TouchableHighlight, SafeAreaView, AsyncStorage, FlatList } from 'react-native';
 import { Card, Title, Paragraph, ActivityIndicator, Button, DefaultTheme } from 'react-native-paper';
 import { getResults, deleteResult } from '../Redux/Actions/types';
 import { useDispatch, useSelector } from 'react-redux';
 
 export default function ViewStudent(props) {
+    const inputEl = useRef(null);
     const dispatch = useDispatch();
     const {navigation} = props;
 
@@ -51,8 +52,12 @@ export default function ViewStudent(props) {
                     </View>
                 </Card.Content>
                 <Card.Actions>
-                    <Button>Edit Result</Button>
-                    <Button>Delete Result</Button>
+                    <Button onPress={() => {
+                        onEdit(item)
+                    }}>Edit Result</Button>
+                    <Button onPress={() => {
+                        onDelete(item.id)
+                    }}>Delete Result</Button>
                 </Card.Actions>
             </Card>
         )
@@ -107,8 +112,8 @@ export default function ViewStudent(props) {
                         </View>
                     </Card.Content>
                     <Card.Actions style={{justifyContent: 'space-between'}}>
-                        <Button style={{backgroundColor: '#20B2AA'}} theme={theme}>Edit Student</Button>
-                        <Button style={{backgroundColor: 'red'}} theme={theme}>Delete Student</Button>
+                        <Button>Edit Student</Button>
+                        <Button>Delete Student</Button>
                     </Card.Actions>
                 </Card>
 
@@ -140,8 +145,8 @@ export default function ViewStudent(props) {
                         </View>
                     </Card.Content>
                     <Card.Actions style={{justifyContent: 'space-between'}}>
-                        <Button style={{backgroundColor: '#20B2AA'}} theme={theme}>Edit Student</Button>
-                        <Button style={{backgroundColor: 'red'}} theme={theme}>Delete Student</Button>
+                        <Button>Edit Student</Button>
+                        <Button>Delete Student</Button>
                     </Card.Actions>
                 </Card>
                 <FlatList
