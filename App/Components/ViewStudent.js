@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableHighlight, SafeAreaView, AsyncStorage, FlatList } from 'react-native';
-import { Card, Title, Paragraph, ActivityIndicator } from 'react-native-paper';
+import { Card, Title, Paragraph, ActivityIndicator, Button, DefaultTheme } from 'react-native-paper';
 import { getResults, deleteResult } from '../Redux/Actions/types';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -50,6 +50,10 @@ export default function ViewStudent(props) {
                         <Paragraph style={{fontSize: 20}}>{item.id}</Paragraph>
                     </View>
                 </Card.Content>
+                <Card.Actions>
+                    <Button>Edit Result</Button>
+                    <Button>Delete Result</Button>
+                </Card.Actions>
             </Card>
         )
     }
@@ -80,6 +84,14 @@ export default function ViewStudent(props) {
         })
     }
 
+    const theme = {
+        ...DefaultTheme,
+        colors: {
+            ...DefaultTheme.colors,
+            primary: '#000',
+        },
+    };
+
     if (isFetching) {
         return (
             <SafeAreaView style={styles.container}>
@@ -94,6 +106,10 @@ export default function ViewStudent(props) {
                             <Paragraph style={{fontSize: 20}}><Text style={{fontWeight: 'bold'}}>Gender:</Text>  {gender}</Paragraph>
                         </View>
                     </Card.Content>
+                    <Card.Actions style={{justifyContent: 'space-between'}}>
+                        <Button style={{backgroundColor: '#20B2AA'}} theme={theme}>Edit Student</Button>
+                        <Button style={{backgroundColor: 'red'}} theme={theme}>Delete Student</Button>
+                    </Card.Actions>
                 </Card>
 
                 <View style={styles.activityIndicatorContainer}>
@@ -123,15 +139,16 @@ export default function ViewStudent(props) {
                             <Paragraph style={{fontSize: 20}}><Text style={{fontWeight: 'bold'}}>Gender:</Text>  {gender}</Paragraph>
                         </View>
                     </Card.Content>
+                    <Card.Actions style={{justifyContent: 'space-between'}}>
+                        <Button style={{backgroundColor: '#20B2AA'}} theme={theme}>Edit Student</Button>
+                        <Button style={{backgroundColor: 'red'}} theme={theme}>Delete Student</Button>
+                    </Card.Actions>
                 </Card>
-
-                <View>
-                    <FlatList
-                        data={results}
-                        renderItem={renderItem}
-                        keyExtractor={(item, index) => `results_${index}`}
-                    />
-                </View>
+                <FlatList
+                    data={results}
+                    renderItem={renderItem}
+                    keyExtractor={(item, index) => `results_${index}`}
+                />
     
                 <TouchableHighlight
                     style={styles.floatingButton}
