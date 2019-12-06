@@ -79,7 +79,7 @@ export default function NewStudent(props) {
         },
     };
 
-    let disabled = (name.length > 0 && grade.length > 0 && gender.length > 0 && age.length > 0) ? false : true;
+    // let disabled = (name.length > 0 && grade.length > 0 && gender.length > 0 && age.length > 0) ? false : true;
     return (
         <KeyboardAvoidingView keyboardVerticalOffset={Header.HEIGHT} style={styles.flex} behavior="padding">
             <SafeAreaView style={styles.flex}>
@@ -122,11 +122,11 @@ export default function NewStudent(props) {
                     <View style={{flex: 1, alignItems: "flex-end"}}>
                         <TouchableHighlight
                             style={[styles.button]}
-                            disabled={disabled}
+                            disabled={false}
                             onPress={onSave}
                             underlayColor="rgba(0, 0, 0, 0)"
                         >
-                            <Text style={[styles.buttonText, {color: disabled ? "rgba(255,255,255,.5)" : "#FFF"}]}>
+                            <Text style={[styles.buttonText, {color:"#FFF"}]}>
                                 Save
                             </Text>
                         </TouchableHighlight>

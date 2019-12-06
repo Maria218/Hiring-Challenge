@@ -10,7 +10,7 @@ export default function NewResult(props) {
     const {navigation} = props;
 
     let result = navigation.getParam('result', null);
-    let id = navigation.getParam('id', null);
+    let student = navigation.getParam('id', null);
 
     const [isSaving, setIsSaving] = useState(false)
     const [subject, setSubject] = useState(result ? result.subject : "")
@@ -25,9 +25,10 @@ export default function NewResult(props) {
             result_['subject'] = subject;
             result_['mark'] = mark;
         } else {
-            // let id = new Date().getTime();
+            let id = new Date().getTime();
             result_ = {
                 "id": id,
+                "student": student,
                 "subject": subject,
                 "mark": mark,
             };

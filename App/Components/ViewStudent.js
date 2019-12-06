@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { View, Text, StyleSheet, TouchableHighlight, SafeAreaView, AsyncStorage, FlatList } from 'react-native';
 import { Card, Title, Paragraph, ActivityIndicator, Button, DefaultTheme } from 'react-native-paper';
-import { getResults, deleteResult } from '../Redux/Actions/types';
+import { getResults, deleteResult, deleteStudent } from '../Redux/Actions/types';
 import { useDispatch, useSelector } from 'react-redux';
+import SideSwipe from 'react-native-sideswipe';
 
 export default function ViewStudent(props) {
     const inputEl = useRef(null);
@@ -15,7 +16,7 @@ export default function ViewStudent(props) {
     const resultReducer = useSelector((state) => state.resultReducer);
     const { results } = resultReducer;
 
-    let id = navigation.getParam('name', null)
+    let studentId = navigation.getParam('name', null)
     let name = navigation.getParam('name', null)
     let age = navigation.getParam('age', null)
     let gender = navigation.getParam('gender', null)
@@ -33,8 +34,16 @@ export default function ViewStudent(props) {
             else if (results !== null) {
                 dispatch(getResults(JSON.parse(results)))
             }
-            else if (results === null) {
-                alert("THIS STUDENT HAS NO RESULTS TO SHOW YET")
+            else if (results === 0) {
+                return (
+                    <Card>
+                        <Card.Content>
+                            <Title style={{textDecorationLine: 'underline'}}>Add this student's results</Title>
+                        </Card.Content>
+                        <Card.Actions>
+                        </Card.Actions>
+                    </Card>
+                )
             }
 
             setIsFetching(false)
@@ -45,29 +54,56 @@ export default function ViewStudent(props) {
         return (
             <Card>
                 <Card.Content>
-                    <Title style={{textDecorationLine: 'underline'}}>{item.subject}</Title>
+                    <Title style={{textDecorationLine: 'underline'}}><Text style={{fontWeight: 'bold'}}>Subject: </Text>{item.subject}</Title>
                     <View style={{justifyContent: 'center'}}>
-                        <Paragraph style={{fontSize: 20}}>{item.mark}</Paragraph>
+                        <Paragraph style={{fontSize: 20}}><Text style={{fontWeight: 'bold', justifyContent:'center'}}>Result: </Text>{item.mark}</Paragraph>
                         <Paragraph style={{fontSize: 20}}>{item.id}</Paragraph>
+                        <Paragraph style={{fontSize: 20}}>{item.student}</Paragraph>
                     </View>
                 </Card.Content>
                 <Card.Actions>
                     <Button onPress={() => {
-                        onEdit(item)
+                        onEditResult(item)
                     }}>Edit Result</Button>
                     <Button onPress={() => {
-                        onDelete(item.id)
+                        onDeleteResult(item.id)
                     }}>Delete Result</Button>
                 </Card.Actions>
             </Card>
         )
     }
 
-    const onEdit = (item) => {
+    const onEditStudent = (item) => {
+        navigation.navigate('NewStudent', {student: item})
+    }
+
+    const onDeleteStudent = (id) => {
+        AsyncStorage.getItem('students', (err, students) => {
+            if (err) {
+                alert(err.message)
+            }
+            else if (students !== null) {
+                students = JSON.parse(students)
+
+                // Find index of result passed
+                const index = students.findIndex((obj) => obj.id === id)
+
+                // Remove Result
+                if (index !== -1) {
+                    students.splice(index, 1)
+                }
+
+                // Update local storage
+                AsyncStorage.setItem('students', JSON.stringify(students), () => dispatch(deleteStudent(id)));
+            }
+        })
+    }
+
+    const onEditResult = (item) => {
         navigation.navigate('NewResult', {result: item})
     }
 
-    const onDelete = (id) => {
+    const onDeleteResult = (id) => {
         AsyncStorage.getItem('results', (err, results) => {
             if (err) {
                 alert(err.message)
@@ -112,8 +148,12 @@ export default function ViewStudent(props) {
                         </View>
                     </Card.Content>
                     <Card.Actions style={{justifyContent: 'space-between'}}>
-                        <Button>Edit Student</Button>
-                        <Button>Delete Student</Button>
+                        <Button onPress={() => {
+                            onEditStudent(studentId)
+                        }}>Edit Student</Button>
+                        <Button onPress={() => {
+                            onDeleteStudent(studentId)
+                        }}>Delete Student</Button>
                     </Card.Actions>
                 </Card>
 
@@ -124,7 +164,7 @@ export default function ViewStudent(props) {
                 <TouchableHighlight
                     style={styles.floatingButton}
                     underlayColor='#228B22'
-                    onPress={() => navigation.navigate('NewResult', {id: id})}
+                    onPress={() => navigation.navigate('NewResult', {id: studentId})}
                 >
                     <Text style={{fontSize: 25, color: 'white'}}>+</Text>
                 </TouchableHighlight>
@@ -145,8 +185,12 @@ export default function ViewStudent(props) {
                         </View>
                     </Card.Content>
                     <Card.Actions style={{justifyContent: 'space-between'}}>
-                        <Button>Edit Student</Button>
-                        <Button>Delete Student</Button>
+                        <Button onPress={() => {
+                            onEditStudent(studentId)
+                        }}>Edit Student</Button>
+                        <Button onPress={() => {
+                            onDeleteStudent(studentId)
+                        }}>Delete Student</Button>
                     </Card.Actions>
                 </Card>
                 <FlatList
@@ -158,7 +202,7 @@ export default function ViewStudent(props) {
                 <TouchableHighlight
                     style={styles.floatingButton}
                     underlayColor='#228B22'
-                    onPress={() => navigation.navigate('NewResult', {id: id})}
+                    onPress={() => navigation.navigate('NewResult', {id: studentId})}
                 >
                     <Text style={{fontSize: 25, color: 'white'}}>+</Text>
                 </TouchableHighlight>
