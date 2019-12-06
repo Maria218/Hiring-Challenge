@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import SideSwipe from 'react-native-sideswipe';
 
 export default function ViewStudent(props) {
-    const inputEl = useRef(null);
     const dispatch = useDispatch();
     const {navigation} = props;
 
@@ -34,17 +33,17 @@ export default function ViewStudent(props) {
             else if (results !== null) {
                 dispatch(getResults(JSON.parse(results)))
             }
-            else if (results === 0) {
-                return (
-                    <Card>
-                        <Card.Content>
-                            <Title style={{textDecorationLine: 'underline'}}>Add this student's results</Title>
-                        </Card.Content>
-                        <Card.Actions>
-                        </Card.Actions>
-                    </Card>
-                )
-            }
+            // else if (results.student !== studentId) {
+            //     return (
+            //         <Card>
+            //             <Card.Content>
+            //                 <Title style={{textDecorationLine: 'underline'}}>Add this student's results</Title>
+            //             </Card.Content>
+            //             <Card.Actions>
+            //             </Card.Actions>
+            //         </Card>
+            //     )
+            // }
 
             setIsFetching(false)
         })
@@ -58,8 +57,6 @@ export default function ViewStudent(props) {
                         <Title style={{textDecorationLine: 'underline'}}><Text style={{fontWeight: 'bold'}}>Subject: </Text>{item.subject}</Title>
                         <View style={{justifyContent: 'center'}}>
                             <Paragraph style={{fontSize: 20}}><Text style={{fontWeight: 'bold', justifyContent:'center'}}>Result: </Text>{item.mark}</Paragraph>
-                            <Paragraph style={{fontSize: 20}}>{item.id}</Paragraph>
-                            <Paragraph style={{fontSize: 20}}>{item.student}</Paragraph>
                         </View>
                     </Card.Content>
                     <Card.Actions>
