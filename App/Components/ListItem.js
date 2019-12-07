@@ -6,40 +6,6 @@ import Swipeable from 'react-native-gesture-handler/Swipeable';
 let colors = ['#228B22', '#20B2AA'];
 
 export default function ListItem ({item, index, navigation, onDelete, onEdit}){
-    const inputEl = useRef(null);
-
-    const RightActions = ({ progress, dragX, onPress, item}) => {
-        const scale = dragX.interpolate({
-            inputRange: [-100, 0],
-            outputRange: [1, 0],
-            extrapolate: 'clamp'
-        });
-
-        return (
-            <View style={styles.buttons}>
-                <RectButton onPress={() => {
-                    inputEl.current.close();
-                    onEdit(item)
-                }}>
-                    <View style={[styles.rightAction, styles.editAction]}>
-                        <Animated.Text style={[styles.actionText, { transform: [{ scale }] }]}>
-                            Edit
-                        </Animated.Text>
-                    </View>
-                </RectButton>
-                <RectButton onPress={() => {
-                    inputEl.current.close();
-                    onDelete(item.id)
-                }}>
-                    <View style={[styles.rightAction, styles.deleteAction]}>
-                        <Animated.Text style={[styles.actionText, { transform: [{ scale }] }]}>
-                            Delete
-                        </Animated.Text>
-                    </View>
-                </RectButton>
-            </View>
-        )
-    }
 
     function random() {
         if (index % 2 === 0) {
@@ -51,11 +17,6 @@ export default function ListItem ({item, index, navigation, onDelete, onEdit}){
     }
 
     return (
-        // <Swipeable ref={inputEl}
-        //     renderRightActions={(progress, dragX) => (
-        //         <RightActions progress={progress} dragX={dragX} item={item} />
-        //     )}
-        // >
             <View style={styles.row}>
                 <View style={[styles.container, {backgroundColor: random()}]}>
                     <Text style={styles.quote}>
@@ -66,7 +27,6 @@ export default function ListItem ({item, index, navigation, onDelete, onEdit}){
                     </Text>
                 </View>
             </View>
-        // </Swipeable>
     )
 }
 

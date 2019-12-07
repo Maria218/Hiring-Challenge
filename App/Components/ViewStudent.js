@@ -160,6 +160,10 @@ export default function ViewStudent(props) {
                 <View style={styles.activityIndicatorContainer}>
                     <ActivityIndicator animating={true} />
                 </View>
+
+                <View>
+                    <Text>ADD RESULTS</Text>
+                </View>
     
                 <TouchableHighlight
                     style={styles.floatingButton}
@@ -194,6 +198,10 @@ export default function ViewStudent(props) {
                     </Card.Actions>
                 </Card>
 
+                <View>
+                    <Text>ADD RESULTS</Text>
+                </View>
+
                 <FlatList
                     data={results}
                     renderItem={renderItem}
@@ -218,6 +226,8 @@ const styles = StyleSheet.create({
         flex:1,
         backgroundColor: '#F5F5F5'
     },
+
+    resulTxt: {},
 
     cardStyle: {
         flexDirection: 'row',

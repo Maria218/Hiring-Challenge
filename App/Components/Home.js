@@ -101,6 +101,8 @@ export default function Home(props) {
     }
 }
 
+export const { width, height } = Dimensions.get('window');
+
 const styles = StyleSheet.create({
 
     container: {
@@ -115,9 +117,10 @@ const styles = StyleSheet.create({
         flex: 1,
     },
 
-    floatingButton:{
+    floatingButton: {
         backgroundColor: '#228B22',
-        borderColor: '#228B22',
+        borderColor: '#006400',
+        borderWidth: 1,
         height: 55,
         width: 55,
         borderRadius: 55 / 2,
